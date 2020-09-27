@@ -13,7 +13,7 @@ SECRET_KEY = 'e)ezb^ee(&ll6ve$=9i=g8gqxahxb)2rh#!st3rhhhce@v2)mg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # TODO: Include host that the rasb-pi will be exposed on
 
 
 # Application definition
