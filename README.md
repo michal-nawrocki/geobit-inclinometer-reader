@@ -1,6 +1,8 @@
 # geobit-inclinometer-reader
 Read inclinometer data from RS485 and present them in a DRF app
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/michal-nawrocki/geobit-inclinometer-reader/CI%20test)
+
 
 ## How to get install the project
 1. Create a virtualenv 
