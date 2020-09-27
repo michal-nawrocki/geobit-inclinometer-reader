@@ -1,7 +1,13 @@
-from django.contrib import admin
+from rest_framework import routers
 from django.urls import path, include
 
+from api.sensor import views
+
+
+router = routers.DefaultRouter()
+
+#router.register(r"api", views)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("sensor.urls"))
+    path("", include(router.urls))
 ]
