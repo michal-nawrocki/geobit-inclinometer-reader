@@ -3,7 +3,7 @@ Do read and write calls over the RS485 USB adapter to the inclinometer sensors
 """
 import serial
 
-import inclino_reader.hex_values
+from inclino_reader import hex_values
 
 
 USB_1 = '/dev/ttyUSB0'
