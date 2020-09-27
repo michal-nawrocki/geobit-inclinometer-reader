@@ -22,4 +22,4 @@ Read inclinometer data from RS485 and present them in a DRF app
 
     To run the server type:
     
-        python manage.py runserver
+        sudo python3 manage.py runserver # Use sudo for the USB read/write functionality
