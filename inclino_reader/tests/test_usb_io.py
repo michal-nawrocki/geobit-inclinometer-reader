@@ -61,6 +61,7 @@ class TestSerialService(unittest.TestCase):
             stopbits=1
         )
 
+    # TODO: Add tests for Serial stuff
     @unittest.skip("Work in Progress")
     @patch("inclino_reader.usb_io.serial.Serial.read.hex")
     @patch("inclino_reader.usb_io.serial.Serial.write")
