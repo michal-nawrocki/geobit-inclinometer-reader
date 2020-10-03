@@ -26,7 +26,7 @@ class HexCode:
 READ_X_AXIS =       HexCode(bytearray(b"\x77\x05\x00\x00\x01\x06"), 10)
 READ_Y_AXIS =       HexCode(bytearray(b"\x77\x05\x00\x00\x02\x07"), 10)
 
-SET_ABSOLUTE_ZERO = HexCode(bytearray(b"\x77\x06\x00\x00\x05\x00\x0C"), 7)
+SET_ABSOLUTE_ZERO = HexCode(bytearray(b"\x77\x06\x00\x00\x05\x00\x0B"), 7)
 SET_RELATIVE_ZERO = HexCode(bytearray(b"\x77\x06\x00\x00\x05\x01\x0C"), 7)
 SAVE_SETTINGS =     HexCode(bytearray(b"\x77\x05\x00\x00\x0A\x0F"), 7)
 

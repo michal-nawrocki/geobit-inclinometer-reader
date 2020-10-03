@@ -40,6 +40,23 @@ class SerialService:
 
         return response.hex()
 
+
+    def _convert_status_response_to_str(self, status: str) -> bool:
+        """
+        Convert the status hex representation into `bool` one.
+        This will be True/False
+
+        :param status: The hex string of a status response
+        :return: Bool representation of the status response [True/False]
+        """
+        output = status[hex_values.DATA_INDEX:hex_values.CHEKSUM_END_SLICE]
+
+        if output == hex_values.SUCCESS_BYTES:
+            return True
+        else:
+            return False
+
+
     def _convert_angle_response_to_str(self, angle: str) -> str:
         """
         Convert the angle hex representation into str one.
@@ -74,3 +91,31 @@ class SerialService:
         """
         response = self._do_serial_call(hex_values.READ_Y_AXIS)
         return self._convert_angle_response_to_str(response)
+
+
+    def set_relative_reader_mode(self) -> bool:
+        """
+        Set the inclinometer into relative-zero mode
+        
+        :return: Status if the change was successful or not as bool
+        """
+        response = self._do_serial_call(hex_values.SET_RELATIVE_ZERO)
+        return self._convert_status_response_to_str(response)
+
+    def set_absolute_reader_mode(self) -> bool:
+        """
+        Set the inclinometer into absolute-zero mode
+        
+        :return: Status if the change was successful or not as bool
+        """
+        response = self._do_serial_call(hex_values.SET_ABSOLUTE_ZERO)
+        return self._convert_status_response_to_str(response)
+
+    def save_settings(self) -> bool:
+        """
+        Save the inclinometer settings.
+        
+        :return: Status if the change was successful or not as bool
+        """
+        response = self._do_serial_call(hex_values.SAVE_SETTINGS)
+        return self._convert_status_response_to_str(response)

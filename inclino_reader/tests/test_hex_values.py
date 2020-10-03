@@ -18,7 +18,7 @@ class TestHexValues(unittest.TestCase):
         self.assertEqual(READ_Y_AXIS.read_length, 10)
 
     def test_set_absolute_zero(self):
-        self.assertEqual(SET_ABSOLUTE_ZERO.hex_code, bytearray(b"\x77\x06\x00\x00\x05\x00\x0C"))
+        self.assertEqual(SET_ABSOLUTE_ZERO.hex_code, bytearray(b"\x77\x06\x00\x00\x05\x00\x0B"))
         self.assertEqual(SET_ABSOLUTE_ZERO.read_length, 7)
 
     def test_set_relative_zero(self):
