@@ -83,4 +83,3 @@ class TestSerialService(unittest.TestCase):
         serial_service = SerialService(USB_2)
         response = serial_service._do_serial_call(READ_X_AXIS)
         self.assertEqual(response, "770900008210001410bf")
-        
