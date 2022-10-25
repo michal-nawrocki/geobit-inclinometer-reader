@@ -1,17 +1,24 @@
 """
 Do read and write calls over the RS485 USB adapter to the inclinometer sensors
 """
+import logging
+from typing import Optional
 import serial
 
-from inclino_reader import hex_values
+from hex_values import *
 
+_logger = logging.getLogger(__name__)
 
 USB_1 = '/dev/ttyUSB0'
 USB_2 = '/dev/ttyUSB1'
 
 
+class SerialError(Exception):
+    """Exception to handle all serial issues"""
+
+
 class SerialService:
-    def __init__(self, usb_dev: hex_values.HexCode):
+    def __init__(self, usb_dev: HexCode):
         try:
             self._connection = serial.Serial(
                 port=usb_dev,
@@ -21,14 +28,15 @@ class SerialService:
                 bytesize=serial.EIGHTBITS,
             )
         except (ValueError, serial.SerialException) as e:
-            print(e)
-            raise ValueError
+            _logger.warning(e)
+            raise SerialError()
 
         if not self._connection.isOpen():
-            print("The USB serial connection is not open. Aborting...")
-            raise ValueError
+            _logger.warning(
+                "The USB serial connection is not open. Aborting...")
+            raise SerialError()
 
-    def _do_serial_call(self, call: hex_values.HexCode) -> bytearray:
+    def _do_serial_call(self, call: HexCode) -> bytearray:
         """
         Perform the IO calls using the objects Serial connection
 
@@ -40,7 +48,6 @@ class SerialService:
 
         return response.hex()
 
-
     def _convert_status_response_to_str(self, status: str) -> bool:
         """
         Convert the status hex representation into `bool` one.
@@ -49,13 +56,12 @@ class SerialService:
         :param status: The hex string of a status response
         :return: Bool representation of the status response [True/False]
         """
-        output = status[hex_values.DATA_INDEX:hex_values.CHEKSUM_END_SLICE]
+        output = status[DATA_INDEX:CHEKSUM_END_SLICE]
 
-        if output == hex_values.SUCCESS_BYTES:
+        if output == SUCCESS_BYTES:
             return True
         else:
             return False
-
 
     def _convert_angle_response_to_str(self, angle: str) -> str:
         """
@@ -65,7 +71,7 @@ class SerialService:
         :param angle: The hex string of a read angle
         :return: String representation of an angle (with sign and decimal point)
         """
-        output = angle[hex_values.DATA_INDEX:hex_values.CHEKSUM_END_SLICE]
+        output = angle[DATA_INDEX:CHEKSUM_END_SLICE]
 
         if output[0] == "1":
             converted = "+" + output[1:4] + "." + output[4:]
@@ -74,48 +80,53 @@ class SerialService:
 
         return converted
 
-    def get_x_axis_reading(self) -> str:
+    def get_x_axis_reading(self) -> Optional[str]:
         """
         Get the X-axis reading from sensor
-        
+
         :return: Read angle as a string (with sign and decimal point)
         """
-        response = self._do_serial_call(hex_values.READ_X_AXIS)
+        try:
+            response = self._do_serial_call(READ_X_AXIS)
+        except SerialError:
+            return None
         return self._convert_angle_response_to_str(response)
 
-    def get_y_axis_reading(self) -> str:
+    def get_y_axis_reading(self) -> Optional[str]:
         """
         Get the Y-axis reading from sensor
 
         :return: Read angle as a string (with sign and decimal point)
         """
-        response = self._do_serial_call(hex_values.READ_Y_AXIS)
+        try:
+            response = self._do_serial_call(READ_Y_AXIS)
+        except SerialError:
+            return None
         return self._convert_angle_response_to_str(response)
-
 
     def set_relative_reader_mode(self) -> bool:
         """
         Set the inclinometer into relative-zero mode
-        
+
         :return: Status if the change was successful or not as bool
         """
-        response = self._do_serial_call(hex_values.SET_RELATIVE_ZERO)
+        response = self._do_serial_call(SET_RELATIVE_ZERO)
         return self._convert_status_response_to_str(response)
 
     def set_absolute_reader_mode(self) -> bool:
         """
         Set the inclinometer into absolute-zero mode
-        
+
         :return: Status if the change was successful or not as bool
         """
-        response = self._do_serial_call(hex_values.SET_ABSOLUTE_ZERO)
+        response = self._do_serial_call(SET_ABSOLUTE_ZERO)
         return self._convert_status_response_to_str(response)
 
     def save_settings(self) -> bool:
         """
         Save the inclinometer settings.
-        
+
         :return: Status if the change was successful or not as bool
         """
-        response = self._do_serial_call(hex_values.SAVE_SETTINGS)
+        response = self._do_serial_call(SAVE_SETTINGS)
         return self._convert_status_response_to_str(response)

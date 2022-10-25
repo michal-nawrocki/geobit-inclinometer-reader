@@ -1,0 +1,1 @@
+find ~ -name "get_readings.py" -exec `which python3` {} \;
