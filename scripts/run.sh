@@ -1,1 +1,1 @@
-sudo `which python3` manage.py runserver
+find ~ -name "store_readings.py" -exec `which python3` \{\} ~/.geobit/readings.txt \;

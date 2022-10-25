@@ -9,15 +9,16 @@ from hex_values import *
 
 _logger = logging.getLogger(__name__)
 
-USB_1 = '/dev/ttyUSB0'
-USB_2 = '/dev/ttyUSB1'
-
 
 class SerialError(Exception):
     """Exception to handle all serial issues"""
 
 
 class SerialService:
+    USB_1 = '/dev/ttyUSB0'
+    USB_2 = '/dev/ttyUSB1'
+    DEVICES = [USB_1, USB_2]
+
     def __init__(self, usb_dev: HexCode):
         try:
             self._connection = serial.Serial(
