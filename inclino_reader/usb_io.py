@@ -135,3 +135,12 @@ class SerialService:
         """
         response = self._do_serial_call(SAVE_SETTINGS)
         return self._convert_status_response_to_str(response)
+    
+    def set_five_hz(self) -> bool:
+        """
+        Save the inclinometer settings.
+
+        :return: Status if the change was successful or not as bool
+        """
+        response = self._do_serial_call(FIVE_HZ_SETTING)
+        return self._convert_status_response_to_str(response)

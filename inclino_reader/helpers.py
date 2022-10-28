@@ -41,7 +41,7 @@ def read_all_sensors(devices):
 def reset_devices(devices):
     for index, device in enumerate(devices, start=1):
         try:
-            device.set_relative_reader_mode()
+            device.set_absolute_reader_mode()
             device.save_settings()
             print(f"Device {index} set to relative mode")
         except SerialError:
