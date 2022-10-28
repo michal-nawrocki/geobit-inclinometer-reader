@@ -30,8 +30,6 @@ SET_ABSOLUTE_ZERO = HexCode(bytearray(b"\x77\x06\x00\x00\x05\x00\x0B"), 7)
 SET_RELATIVE_ZERO = HexCode(bytearray(b"\x77\x06\x00\x00\x05\x01\x0C"), 7)
 SAVE_SETTINGS = HexCode(bytearray(b"\x77\x05\x00\x00\x0A\x0F"), 7)
 
-FIVE_HZ_SETTING = HexCode(bytearray(b"\x77\x06\x00\x00\x0C\x00\x12"), 7)
-
 # Known constants in the HEX values
 DATA_INDEX = 10
 CHEKSUM_END_SLICE = -2
