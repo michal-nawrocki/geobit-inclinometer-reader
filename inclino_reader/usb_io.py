@@ -16,7 +16,7 @@ class SerialError(Exception):
 
 class SerialService:
     USB_1 = '/dev/ttyUSB0'
-    USB_2 = '/dev/ttyUSB1'
+    USB_2 = '/dev/ttyUSB6'
     DEVICES = [USB_1, USB_2]
 
     def __init__(self, usb_dev: HexCode):
@@ -24,6 +24,7 @@ class SerialService:
             self._connection = serial.Serial(
                 port=usb_dev,
                 baudrate=9600,
+                timeout=1,
                 parity=serial.PARITY_NONE,
                 stopbits=serial.STOPBITS_ONE,
                 bytesize=serial.EIGHTBITS,
@@ -46,6 +47,9 @@ class SerialService:
         """
         self._connection.write(call.hex_code)
         response = self._connection.read(call.read_length)
+        
+        if not response:
+            raise SerialError("No data recieved")
 
         return response.hex()
 
